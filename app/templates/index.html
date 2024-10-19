@@ -11,6 +11,7 @@
     <div class="container">
         <h1>To-Do List</h1>
         <h2>Bienvenido, {{ current_user.username }}</h2>
+        <!-- GIT PUSH TEST CD / CI -->
         <form action="{{ url_for('main.add_task') }}" method="POST">
             <input type="text" name="title" placeholder="Nueva tarea">
             <button type="submit">Agregar</button>
