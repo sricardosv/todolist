@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List {{user.username}} {{user.email}}</h1>
+        <form action="{{ url_for('main.add_task') }}" method="POST">
+            <input type="text" name="title" placeholder="Nueva tarea">
+            <button type="submit">Agregar</button>
+        </form>
+        <ul>
+            {% for task in tasks %}
+                <li class="{{ 'completed' if task.completed else 'pending' }}">
+                    <span>{{ task.title }}</span>
+                    {% if not task.completed %}
+                        <form action="{{ url_for('main.complete_task', task_id=task.id) }}" method="POST" class="inline">
+                            <button type="submit" class="complete-btn"><i class="fas fa-check"></i></button>
+                        </form>
+                    {% endif %}
+                    {% if task.completed %}
+                        <form action="{{ url_for('main.uncomplete_task', task_id=task.id) }}" method="POST" class="inline">
+                            <button type="submit" class="uncomplete-btn"><i class="fas fa-minus-square"></i></button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('auth.logout') }}" class="uncomplete-btn">Logout</a>
+    </div>
+</body>
+</html>
